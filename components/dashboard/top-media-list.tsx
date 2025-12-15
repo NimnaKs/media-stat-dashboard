@@ -36,7 +36,7 @@ export default function TopMediaList({ tenantId }: { tenantId: string }) {
         }
 
         // Fetch full details for each item
-        const enrichedItems = await Promise.all(
+        const enrichedItems: EnrichedMediaItem[] = await Promise.all(
           items.map(async (item) => {
             try {
               let details
@@ -48,12 +48,23 @@ export default function TopMediaList({ tenantId }: { tenantId: string }) {
               return { ...item, details }
             } catch (err) {
               console.error(`Failed to fetch details for ${item.mediaType} ${item.mediaId}`, err)
-              return item
+              return { ...item }
             }
           }),
         )
 
-        setData(enrichedItems)
+        // Filter out items with "Title Not Available" or "not available"
+        const filteredItems = enrichedItems.filter((item) => {
+          const title = item.details
+            ? item.details.title.titleEn || item.details.title.titleSi || item.details.title.titleTa || item.title
+            : item.title
+            
+          if (!title) return false
+          const lowerTitle = title.toLowerCase()
+          return !lowerTitle.includes("title not available") && !lowerTitle.includes("not available")
+        })
+
+        setData(filteredItems)
       } catch (err) {
         console.error("Failed to fetch top media:", err)
       } finally {

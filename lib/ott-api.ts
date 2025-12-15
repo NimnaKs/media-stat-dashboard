@@ -97,7 +97,7 @@ export interface PagedResponse<T> {
 }
 
 const BASE_URL = "https://ott-cms-be.rumex.lk"
-const TENANT_ID = "1001011149711097"
+const TENANT_ID = "100101118"
 
 const getHeaders = () => {
   const token = typeof window !== "undefined" ? localStorage.getItem("authToken") : ""
@@ -167,6 +167,27 @@ export async function fetchEpisodesByTVShowId(tvShowId: number): Promise<Episode
   const response = await fetch(`${BASE_URL}/tvShows/${tvShowId}/episodes`, { headers: getHeaders() })
   if (!response.ok) {
     throw new Error(`Failed to fetch episodes for TV show ${tvShowId}`)
+  }
+  return response.json()
+}
+
+export interface LiveChannel {
+  id: number
+  tenantId: number
+  title: Title
+  description: string
+  slug: string
+  cdnUrl: string
+  posters: Poster[]
+  lcn: number
+}
+
+export async function fetchLiveChannels(page = 0, size = 10): Promise<PageResponse<LiveChannel>> {
+  const response = await fetch(`${BASE_URL}/live-channels/paged?page=${page}&size=${size}`, {
+    headers: getHeaders(),
+  })
+  if (!response.ok) {
+    throw new Error("Failed to fetch live channels")
   }
   return response.json()
 }

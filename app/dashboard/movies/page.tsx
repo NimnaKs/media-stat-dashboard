@@ -30,7 +30,12 @@ export default function MoviesPage() {
       setLoading(true)
       try {
         const data = await fetchMovies(page, 10)
-        setMovies(data.content)
+        const filteredMovies = data.content.filter((movie) => {
+          const title = movie.title.titleEn || movie.title.titleSi || movie.title.titleTa || "Untitled"
+          const lowerTitle = title.toLowerCase()
+          return !lowerTitle.includes("title not available") && !lowerTitle.includes("not available")
+        })
+        setMovies(filteredMovies)
         setTotalPages(data.totalPages)
       } catch (err) {
         console.error("Failed to fetch movies:", err)

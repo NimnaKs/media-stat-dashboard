@@ -30,7 +30,12 @@ export default function TVShowsPage() {
       setLoading(true)
       try {
         const data = await fetchTVShows(page, 10)
-        setShows(data.content)
+        const filteredShows = data.content.filter((show) => {
+          const title = show.title.titleEn || show.title.titleSi || show.title.titleTa || "Untitled"
+          const lowerTitle = title.toLowerCase()
+          return !lowerTitle.includes("title not available") && !lowerTitle.includes("not available")
+        })
+        setShows(filteredShows)
         setTotalPages(data.totalPages)
       } catch (err) {
         console.error("Failed to fetch TV shows:", err)

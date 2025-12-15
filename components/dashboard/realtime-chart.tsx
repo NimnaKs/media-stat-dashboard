@@ -32,6 +32,8 @@ export default function RealtimeChart({ tenantId }: { tenantId: string }) {
 
     if (tenantId) {
       fetchData()
+      const interval = setInterval(fetchData, 60000)
+      return () => clearInterval(interval)
     }
   }, [tenantId])
 

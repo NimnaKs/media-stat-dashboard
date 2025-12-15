@@ -22,7 +22,7 @@ export default function LoginForm() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-Tenant-Id": "1001011149711097",
+          "X-Tenant-Id": "100101118",
         },
         body: JSON.stringify({ email, password }),
       })
@@ -33,7 +33,7 @@ export default function LoginForm() {
 
       const data = await response.json()
       localStorage.setItem("authToken", data.tokens.accessToken)
-      localStorage.setItem("tenantId", "1001011149711097")
+      localStorage.setItem("tenantId", "100101118")
       localStorage.setItem("userEmail", email)
 
       router.push("/dashboard")
@@ -95,8 +95,6 @@ export default function LoginForm() {
               {loading ? "Signing in..." : "Sign In"}
             </button>
           </form>
-
-          <p className="text-center text-muted text-xs mt-6">Demo: derick@rumex.lk / 1qaz2wsx</p>
         </div>
       </div>
     </div>

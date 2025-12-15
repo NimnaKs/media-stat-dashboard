@@ -140,7 +140,14 @@ export default function MediaDetail({ mediaId, mediaType, title, tenantId, onBac
                 }
               }),
             )
-            setEpisodeStats(episodesWithStats.sort((a, b) => a.episodeNo - b.episodeNo))
+            const filteredEpisodes = episodesWithStats
+              .filter((ep) => {
+                const title = ep.title.titleEn || ep.title.titleSi || ep.title.titleTa || "Untitled"
+                const lowerTitle = title.toLowerCase()
+                return !lowerTitle.includes("title not available") && !lowerTitle.includes("not available")
+              })
+              .sort((a, b) => a.episodeNo - b.episodeNo)
+            setEpisodeStats(filteredEpisodes)
           } catch (e) {
             console.error("Failed to fetch episodes", e)
           }

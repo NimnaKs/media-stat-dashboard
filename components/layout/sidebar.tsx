@@ -20,6 +20,7 @@ export default function Sidebar() {
     { href: "/dashboard", label: "Dashboard", icon: "📊" },
     { href: "/dashboard/movies", label: "Movies", icon: "🎬" },
     { href: "/dashboard/tv-shows", label: "TV Shows", icon: "📺" },
+    { href: "/dashboard/live-channels", label: "Live Channels", icon: "📡" },
   ]
 
   return (
@@ -27,7 +28,7 @@ export default function Sidebar() {
       className={`${isOpen ? "w-64" : "w-20"} bg-card border-r border-border transition-all duration-300 flex flex-col`}
     >
       <div className="p-6 border-b border-border flex items-center justify-between">
-        {isOpen && <img src="/rumex-logo.jpg" alt="Rumex" className="h-25 w-40" />}
+        {isOpen && <img src="/rumex-logo.jpg" alt="Rumex" className="h-10 w-auto" />}
         <button onClick={() => setIsOpen(!isOpen)} className="text-muted hover:text-foreground transition">
           ☰
         </button>
